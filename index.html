@@ -1,0 +1,200 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" type="text/css" rel="stylesheet">
+    <link href="slides/slides.css" type="text/css" rel="stylesheet">
+    <link href="media/index.css" type="text/css" rel="stylesheet">
+    <title>index</title>
+      <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            align-items: center;
+        }
+        #secret-data {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-family: Arial, sans-serif; /* Шрифт */
+            font-size: 18px; /* Размер шрифта */
+            color: #673A1C; /* Цвет текста */
+            padding: 10px; /* Внутренние отступы */
+            display: inline-block; 
+        }
+
+        input {
+            font-family: Arial, sans-serif; /* Шрифт */
+            font-size: 16px; /* Размер шрифта */
+            color: #FF69B4; /* Цвет текста */
+            padding: 8px; /* Внутренние отступы */
+            border: 1px solid rgba(153, 227, 236, 1); /* Граница */
+            border-radius: 5px; /* Скругление углов */
+            background-color: #ffffff; /* Фоновый цвет */
+            box-sizing: border-box; /* Учитываем границу в общей ширине элемента */
+            outline: none;
+        }
+
+        button {
+            font-family: Arial, sans-serif; /* Шрифт */
+            font-size: 16px; /* Размер шрифта */
+            color: #FF69B4; /* Цвет текста */
+            padding: 10px 20px; /* Внутренние отступы */
+            border: none; /* Убираем границу */
+            border-radius: 5px; /* Скругление углов */
+            background-color: rgba(255, 255, 255, 1); /* Фоновый цвет */
+            cursor: pointer; /* Изменяем указатель мыши */
+            transition: background-color 0.3s ease; /* Плавное изменение цвета фона при наведении */
+        }
+
+        button:hover {
+             background-color: rgba(153, 227, 236, 1); /* Изменяем цвет фона при наведении */
+        }
+      </style>
+  </head>
+  <body>
+    <div id="base" class="container">
+  
+      <!-- Логотип -->
+      <div id="u62" class="ax_default image">
+        <img id="u62_img" class="img " alt="логотип" src="img/Kontakt/logo.png">
+        <div id="u62_text" class="text " style="display:none; visibility: hidden">
+          <p></p>
+        </div>
+      </div>
+  
+      <header id="nav" class="nav">
+        <div class="nav-list"><!-- ШАПКА -->
+          </div>
+          <div class="Menu">
+            <div class="menu1">
+              <div class="M_enu">
+                <p><a class="hyperlink" href="index.html">ГЛАВНАЯ</a></p>
+              </div>
+              <div class="M_enu">
+                <p><a class="hyperlink" href="about.Us.html">О НАС</a></p>
+              </div>
+              <div class="M_enu">
+                <p><a class="hyperlink" href="/404.html">МЕНЮ</a></p>
+              </div>
+              <div class="M_enu">
+                <p><a class="hyperlink" href="contacts.html">КОНТАКТЫ</a></p>
+              </div>
+            </div>
+          </div>
+          <!--Кнопка ПРИ МАЛЕНЬКОМ ЭКРАНЕ-->
+          <button id="nav-btn" class="nav-button">
+              <img id="nav-btn-img" src="img/icons/nav-open.svg" alt="Nav button">
+          </button>
+        </div>
+      </header>
+
+<!-- Форма для ввода логина и пароля -->
+<form id="login-form">
+    <label for="username">Логин:</label>
+    <input type="text" id="username" required><br><br>
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" required><br><br>
+    <button type="button" id="login-button">Войти</button>
+</form>
+
+</div>
+
+<!-- Блок для отображения секретных данных после ввода секретного слова -->
+<div id="secret-data">
+    <label for="secret-word">Введите секретное слово:</label>
+    <input type="text" id="secret-word-input" required>
+    <button type="button" id="show-secret-button">Показать секретные данные</button>
+    <p id="current-date"></p>
+    <p id="no-data-message" style="display: none;">Нет сохраненных данных</p>
+</div>
+
+<!-- JavaScript код -->
+<script>
+  // Обработчик нажатия кнопки "Войти"
+  document.getElementById('login-button').addEventListener('click', function() {
+      // Получаем введенные значения логина и пароля
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+
+      // Проверяем, что логин и пароль были введены
+      if (username.trim() === '' || password.trim() === '') {
+          alert('Пожалуйста, введите логин и пароль.');
+          return; // Прерываем выполнение функции, если логин или пароль не были введены
+      }
+
+      // Показываем блок секретных данных
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('secret-data').style.display = 'block';
+
+      // Устанавливаем срок действия cookie на два дня
+      var expiryDate = new Date();
+      expiryDate.setDate(expiryDate.getDate() + 2);
+      document.cookie = 'username=' + encodeURIComponent(username) + '; expires=' + expiryDate.toUTCString();
+      document.cookie = 'password=' + encodeURIComponent(password) + '; expires=' + expiryDate.toUTCString();
+  });
+
+  // Обработчик нажатия кнопки "Показать секретные данные"
+  document.getElementById('show-secret-button').addEventListener('click', function() {
+      // Получаем введенное секретное слово
+      var secretWord = document.getElementById('secret-word-input').value.toLowerCase(); // Приводим к нижнему регистру
+      var correctSecretWord = 'wow'; // Задаем правильное секретное слово
+
+      // Проверяем введенное секретное слово
+      if (secretWord === Word) {
+          // Если секретное слово правильное, показываем секретные данные
+          var data = document.getElementById('data');
+          var currentDate = new Date();
+          var username = getCookie('username');
+          var password = getCookie('password');
+          if (username && password) {
+              // Если есть сохраненные данные, выводим их
+              data.textContent = 'Логин: ' + username + ', Пароль: ' + password;
+              document.getElementById('no-data-message').style.display = 'none'; // Скрываем сообщение о отсутствии данных
+          } else {
+              // Если нет сохраненных данных, выводим сообщение
+              document.getElementById('no-data-message').style.display = 'block';
+          }
+          // Выводим текущую дату и время
+          document.getElementById('current-date').textContent = 'Текущая дата: ' + currentDate.toLocaleString();
+      } else {
+          // Если секретное слово неправильное, выводим сообщение об ошибке
+          alert('Incorrect secret word. Please try again.');
+      }
+  });
+
+  // Функция для получения значений cookie
+  function getCookie(name) {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.startsWith(name + '=')) {
+              return decodeURIComponent(cookie.substring(name.length + 1));
+          }
+      }
+      return null;
+  }
+</script>
+
+  <footer>
+    <!-- Подвал -->
+    <div id="u73" class="ax_default image">
+      <img id="u73_img" class="img " alt="кнопка" src="img/Kontakt/u14.png">
+      <div id="u73_text" class="text " style="display:none; visibility: hidden">
+        <p></p>
+      </div>
+    </div>
+
+    <div id="u74" class="ax_default heading_3">
+      <div id="u74_div" class=""></div>
+      <div id="u74_text" class="text ">
+        <p><span>© 2035 Кондитерская «СЛАДКАЯ ЖИЗНЬ». </span></p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
